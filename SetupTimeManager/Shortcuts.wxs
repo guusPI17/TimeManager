@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define ProductName="TimeManager" ?>
+  <Fragment>
+    <!--ярлык запуска и ярлыка удаления в пуске-->
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ShortcutsStart" Guid="2812A2CD-9FE3-4CE2-A129-939DAFC60BF3">
+        <Condition> ADD_SHORTCUT_START = 1</Condition>
+        <Shortcut Id="StartApplication_Shortcut1"
+            Name="$(var.ProductName)"
+            Description="StartApplication"
+            Target="[INSTALLLOCATION]$(var.ProductName).exe"
+            WorkingDirectory="INSTALLLOCATION"
+            Icon="windows_folder_20443.ico"/>
+        <Shortcut Id="UninstallApplication_Shortcut1"
+              Name="$(var.ProductName) uninstall"
+              Description="UninstallApplication"
+              Target="[System64Folder]msiexec.exe"
+              Arguments="/x [ProductCode]"/>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU"
+            Key="Software\Microsoft\$(var.ProductName)"
+            Name="installed"
+            Type="integer"
+            Value="1"
+            KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <!--Ярлык .exe на рабочем столе-->
+    <Component Id="ShortcutDesktop" Guid="3A93A653-F54B-4F95-9463-7B85114507EA" Directory="DesktopFolder" >
+      <Condition> ADD_SHORTCUT_DESKTOP = 1</Condition>
+      <Shortcut Id="StartApplication_Shortcut2"
+                Name="$(var.ProductName).exe"
+                Description="StartApplication"
+                Directory="DesktopFolder"
+                Target="[INSTALLLOCATION]$(var.ProductName).exe"
+                WorkingDirectory="INSTALLLOCATION"/>
+      <RegistryValue Root="HKCU"
+         Key="Software\Microsoft\$(var.ProductName)"
+         Name="installed"
+         Type="integer"
+         Value="1"
+         KeyPath="yes" />
+    </Component>
+    <!--Ярлык удаления в папке с приложением-->
+    <Component Id="ShortcutProgram" Guid="B9CF0EC8-15F9-42D3-8CC1-B9D9219E4F15" Directory="INSTALLLOCATION" >
+      <Shortcut Id="UninstallApplication_Shortcut2"
+             Name="$(var.ProductName) uninstall"
+             Description="UninstallApplication"
+             Target="[System64Folder]msiexec.exe"
+             Arguments="/x [ProductCode]"/>
+      <RemoveFolder Id="ApplicationProgramsFolderD" On="uninstall"/>
+    </Component>
+  </Fragment>
+</Wix>

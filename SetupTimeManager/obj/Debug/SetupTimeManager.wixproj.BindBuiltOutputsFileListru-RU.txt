@@ -1,0 +1,2 @@
+D:\Документы\Visual Studio 2017\Projects\TimeManager\SetupTimeManager\bin\Debug\SetupTimeManager.msi
+D:\Документы\Visual Studio 2017\Projects\TimeManager\SetupTimeManager\bin\Debug\SetupTimeManager.wixpdb

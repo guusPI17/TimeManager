@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension"
+    xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <?define TimeManager_TargetDir=$(var.TimeManager.TargetDir)?>
+  <?define ProductName="TimeManager" ?>
+  <Product
+   Id="6C61227F-2E1C-4E79-9B30-2C4DC97C2212"
+   Name="$(var.ProductName)"
+   Language="1049"
+   Version="1.0.0.0"
+   Manufacturer="Anton_Gusev"
+   UpgradeCode="29BD9BD0-C1D8-43D3-92C4-1C0999CCD043"
+   Codepage="1251">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Languages='1049' SummaryCodepage="1251" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <!--EmbedCab="yes" скрываем архив приложения-->
+    <MediaTemplate EmbedCab="yes" />
+
+    <!--Изменяем дизайн установочника и подключаем файл с лиценз.соглашением-->
+    <WixVariable Id="WixUIBannerBmp" Value="Images\installer_banner.bmp"/>
+    <WixVariable Id="WixUIDialogBmp" Value="Images\installer_dialog.bmp"/>
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\License.rtf"/>
+
+    <!--Подключаем иконку для ярлыков-->
+    <Icon Id="windows_folder_20443.ico" SourceFile="$(var.TimeManager.ProjectDir)texteditor_note_notes_pencil_detext_9967.ico"/>
+    <Property Id="ARPPRODUCTCION" Value="texteditor_note_notes_pencil_detext_9967.ico"></Property>
+
+    <!--Для проверки на нужную версию frameworj-->
+    <PropertyRef Id = "WIX_IS_NETFRAMEWORK_40_OR_LATER_INSTALLED" />
+
+    <!--Подключаем интерфейс пользователя-->
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION"></Property>
+    <UI Id="MyWixUI_InstallDir">
+      <UIRef Id="WixUI_InstallDir" />
+      <!--Подключаем диалог доп.компонентон-->
+      <DialogRef Id="DialogAddComponents" />
+      <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="DialogAddComponents" Order="3">LicenseAccepted = "1"</Publish>
+      <Publish Dialog="DialogAddShortcuts" Control="Back" Event="NewDialog" Value="DialogAddComponents">1</Publish>
+      <!--Подключаем диалог ярлыков-->
+      <DialogRef Id="DialogAddShortcuts" />
+      <Publish Dialog="DialogAddComponents" Control="Next" Event="NewDialog" Value="DialogAddShortcuts" Order="3">LicenseAccepted = "1"</Publish>
+      <Publish Dialog="DialogApplicationInfo" Control="Back" Event="NewDialog" Value="DialogAddShortcuts">1</Publish>
+      <!--Подключаем диалог доп.информации-->
+      <DialogRef Id="DialogApplicationInfo" />
+      <Publish Dialog="DialogAddShortcuts" Control="Next" Event="NewDialog" Value="DialogApplicationInfo" Order="3">LicenseAccepted = "1"</Publish>
+      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="DialogApplicationInfo">1</Publish>
+    </UI>
+    <Property Id="PIDTemplate"><![CDATA[12345<### ###>@@@@@]]></Property>
+
+    <!--Права администратора для установочника-->
+    <Property Id="MSIUSEREALADMINDETECTION" Value="1" />
+
+    <!--Подключаем наши комоненты(по ID).-->
+    <Feature Id="ProductFeature" Title="$(var.ProductName)" Level='1'>
+      <ComponentRef Id="ProductComponents" />
+      <ComponentRef Id="ShortcutsStart"/>
+      <ComponentRef Id="ShortcutDesktop" />
+      <ComponentRef Id="ShortcutProgram" />
+    </Feature>
+
+    <!--Подключаем события-->
+    <CustomAction Id='SeturFramework' Directory="TARGETDIR" ExeCommand="[SystemFolder]cmd.exe /C start [SourceDir]source\dotNetFx45_Full_setup.exe" Return="asyncNoWait" />
+
+    <!--Событие на удаление всех созданных файлов в папке во время работы приложения-->
+    <CustomAction Id="CleanupUnpackedPlugins"
+                  Directory="INSTALLLOCATION"
+                  ExeCommand="[SystemFolder]cmd.exe start /C &quot;rmdir /s /q &quot;.\[SourceDir]&quot;&quot;"
+                  Execute="deferred"
+                  Return="ignore"
+                  HideTarget="no"
+                  Impersonate="no" />
+    <InstallExecuteSequence>
+      <Custom Action="CleanupUnpackedPlugins" After="RemoveFiles" >
+        REMOVE="ALL"
+      </Custom>
+    </InstallExecuteSequence>
+
+  </Product>
+
+  <Fragment>
+    <!--Путь к приложения в проводнике-->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLLOCATION" Name="$(var.ProductName)">
+        </Directory>
+      </Directory>
+      <!--Путь к ярлыкам приложения в пуске-->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="$(var.ProductName)" />
+      </Directory>
+      <!--Путь ярлыка к рабочему столу-->
+      <Directory Id="DesktopFolder" SourceName="Desktop"/>
+    </Directory>
+  </Fragment>
+</Wix>

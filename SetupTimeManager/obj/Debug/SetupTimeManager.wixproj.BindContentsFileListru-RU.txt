@@ -1,0 +1,5 @@
+D:\Документы\Visual Studio 2017\Projects\TimeManager\TimeManager\bin\Debug\CalendarLight.dll
+D:\Документы\Visual Studio 2017\Projects\TimeManager\TimeManager\bin\Debug\Newtonsoft.Json.dll
+D:\Документы\Visual Studio 2017\Projects\TimeManager\TimeManager\bin\Debug\TimeManager.exe
+D:\Документы\Visual Studio 2017\Projects\TimeManager\TimeManager\bin\Debug\TimeManager.exe.config
+D:\Документы\Visual Studio 2017\Projects\TimeManager\TimeManager\bin\Debug\Xceed.Words.NET.dll

@@ -1,0 +1,13 @@
+obj\Debug\AppFile.wixobj
+obj\Debug\DialogAddComponents.wixobj
+obj\Debug\DialogAddShortcuts.wixobj
+obj\Debug\DialogApplicationInfo.wixobj
+obj\Debug\Product.wixobj
+obj\Debug\Shortcuts.wixobj
+D:\Документы\Visual Studio 2017\Projects\TimeManager\SetupTimeMenedger\bin\Debug\SetupTimeMenedger.msi
+D:\Документы\Visual Studio 2017\Projects\TimeManager\SetupTimeMenedger\bin\Debug\SetupTimeMenedger.wixpdb
+obj\Debug\SetupTimeManager.wixproj.BindContentsFileListru-RU.txt
+obj\Debug\SetupTimeManager.wixproj.BindOutputsFileListru-RU.txt
+obj\Debug\SetupTimeManager.wixproj.BindBuiltOutputsFileListru-RU.txt
+D:\Документы\Visual Studio 2017\Projects\TimeManager\SetupTimeManager\bin\Debug\SetupTimeManager.msi
+D:\Документы\Visual Studio 2017\Projects\TimeManager\SetupTimeManager\bin\Debug\SetupTimeManager.wixpdb

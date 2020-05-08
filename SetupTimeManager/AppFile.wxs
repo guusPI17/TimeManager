@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define ProductName="TimeManager" ?>
+  <Fragment>
+    <!--Установочные файлы для работоспособности приложения-->
+    <DirectoryRef Id="INSTALLLOCATION" FileSource="$(var.TimeManager.TargetDir)">
+      <Component Id="ProductComponents" DiskId="1" Guid="C024AEDF-6DFF-4CA2-AB70-1D6774C37490">
+        <File Id="$(var.ProductName).exe" Name="$(var.ProductName).exe" />
+        <File Id="$(var.ProductName).exe.config" Name="$(var.ProductName).exe.config" />
+        <File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" />
+        <File Id="CalendarLight.dll" Name="CalendarLight.dll" />
+        <File Id="Xceed.Words.NET.dll" Name="Xceed.Words.NET.dll" />
+        <RegistryKey Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\Run">
+          <RegistryValue Type="string" Name="Run$(var.ProductName)" Value="[INSTALLLOCATION]$(var.ProductName).exe" />
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
+
+  </Fragment>
+
+</Wix>

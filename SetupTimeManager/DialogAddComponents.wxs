@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <!--Новый диалог-->
+  <Fragment>
+    
+    <UI>
+      <Dialog Id="DialogAddComponents" Width="370" Height="270" Title="[ProductName] Setup" NoMinimize="yes">
+        <!--Вверхня панель-->
+        <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+        <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
+          <Text>Без данных компонентов приложение не будет функционировать!</Text>
+        </Control>
+        <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+
+        <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
+          <Text>{\WixUI_Font_Title}Установка дополнительных компонентов</Text>
+        </Control>
+
+        <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+
+        <!--Комноненты для установик Framework-->
+        <Control Id="SeturButtonFramework" Type="PushButton" X="130" Y="60" Width="100" Height="25" Text="&amp;Установить .NET Framework 4.5">
+          <Publish Event='DoAction' Value='SeturFramework'></Publish>
+        </Control>
+
+        <Control Id="InfoFrameworkNo" Type="Text" X="30" Y="95" Width="300" Height="50" Transparent="yes" NoPrefix="yes">
+          <Text>Замечание: У вас отсутствуется версия .NET Framework 4.0 или выше. Установите для работоспособности приложения!</Text>
+          <Condition Action="hide">
+            WIX_IS_NETFRAMEWORK_40_OR_LATER_INSTALLED
+          </Condition>
+        </Control>
+
+        <Control Id="InfoFrameworkYes" Type="Text" X="30" Y="95" Width="300" Height="50" Transparent="yes" NoPrefix="yes">
+          <Text>Замечание: У вас присутствует необходимая версия .NET Framework. Установка доп.компонента не требуется!</Text>
+          <Condition Action="hide">
+            NOT WIX_IS_NETFRAMEWORK_40_OR_LATER_INSTALLED
+          </Condition>
+        </Control>
+
+        <!--Нижние кнопки(далее, назад, отмена)-->
+        <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="&amp;Назад">
+          <Publish Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
+        </Control>
+
+        <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Text="&amp;Далее">
+          <Publish Event="NewDialog" Value="InstallDirDlg">1</Publish>
+        </Control>
+
+        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Отмена">
+          <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+        </Control>
+
+      </Dialog>
+    </UI>
+  </Fragment>
+</Wix>
